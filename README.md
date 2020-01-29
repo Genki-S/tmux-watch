@@ -2,6 +2,15 @@
 
 `watch` command, for tmux panes.
 
+## Motivation
+
+So many times, I fire long-running process and leave computer, and when I get
+back I'm faced with timed out `[sudo] password for USER:` prompt and failed
+process. This is not right, the process (or something which can monitor that
+process) should send me push notification if it needs my attention.
+
+tmux-watch can be used to solve this problem, and potentially more problems I don't yet know.
+
 ## Quick start with example program
 
 If `notify-send` doesn't work in your environment, this example doesn't work.
