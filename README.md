@@ -22,9 +22,9 @@ If `notify-send` doesn't work in your environment, this example doesn't work.
   bind-key w run-shell -b 'PATH/TO/REPO/tmux-watch #{pane_id} PATH/TO/REPO/examples/tmux-watch-notify-certain-strings' \; display-message 'Watching this pane for interesting strings'
   ```
 - Reload .tmux.conf (`tmux source-file /PATH/TO/YOUR/.tmux.conf`)
-- Run `echo 'working...'; sleep 30` in your shell in your tmux session
+- Run `echo 'working...'; sleep 30; sudo ls` in your shell in your tmux session (make sure you don't have sudo session)
 - Press `<tmux-prefix>w` right after executing above command
-- After the `sleep` process is done and you get your shell prompt back, you should see desktop notification sent via `notify-send`
+- When `sudo ls` in the above command shows sudo prompt, you should see desktop notification sent via `notify-send`
 
 
 ## Recommended configuration
