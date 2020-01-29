@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+# SIGTERM is sent via tmux-watch-unwatch, exit with 0 prevents tmux from showing message in copy mode
+trap "exit 0" SIGTERM
+
 print_usage_and_exit() {
   echo "Usage: $0 PANE_ID COMMAND [ARGS]"
   exit 1
