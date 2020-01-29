@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+print_usage_and_exit() {
+  echo "Usage: $0 PANE_ID COMMAND [ARGS]"
+  exit 1
+}
+
+if [[ $# -lt 2 ]]; then
+  print_usage_and_exit
+fi
+
+pane_id=$1
+shift
+user_command=$1
+shift
+# the rest ( $@ ) are arguments to the user command
+
+if ! [[ $pane_id =~ %[0-9]+ ]]; then
+  print_usage_and_exit
+fi
+
+set +e
+
+while true
+do
+  tmux list-panes -a -F '#{pane_id}' | grep "$pane_id" &> /dev/null
+  if [[ $? -ne 0 ]]; then
+    # the pane we are watching is gone, so stop watching
+    break
+  fi
+
+  $user_command -p $pane_id "$@"
+  if [[ $? -ne 0 ]]; then
+    break
+  fi
+
+  # TODO: make sleep length configurable as `watch` does
+  sleep 5
+done
+
+exit 0

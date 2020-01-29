@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# throwing away "-p"
+shift
+pane_id=$1
+
+notify_patterns=(
+  # sudo prompt
+  '^\[sudo\]'
+  # shell prompt (useful to get notified when long-running process is finished)
+  '[#$%]\s*$'
+)
+
+last_line=""
+while read line; do
+  if [[ -n "$line" ]]; then
+    last_line="$line"
+  fi
+done < <(tmux capture-pane -p -J -t $pane_id)
+
+for pat in "${notify_patterns[@]}"; do
+  if [[ $last_line =~ $pat ]]; then
+    notify-send "PANE $pane_id: $last_line"
+    # one push is enough, tell tmux-watch to stop watching
+    exit 1
+  fi
+done
