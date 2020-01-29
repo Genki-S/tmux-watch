@@ -11,6 +11,26 @@ process) should send me push notification if it needs my attention.
 
 tmux-watch can be used to solve this problem, and potentially more problems I don't yet know.
 
+## What it does
+
+`tmux-watch` script doesn't do much. It's up to you what you do with it.
+
+You provide program you want to run with `tmux-watch` (just like you do with
+`watch`). The program passed to `tmux-watch` will receieve tmux pane ID it is
+watching as `-p PANE_ID`. For example, when you invoke `tmux-watch` as:
+
+```
+tmux-watch %1 prog --your-option value
+```
+(`%1` is tmux pane ID)
+
+Your program will be run once in 5 seconds like:
+```
+prog -p %1 --your-option value
+```
+
+Do whatever you like within your program using the tmux pane ID passed. See scripts in the examples directory for examples.
+
 ## Quick start with example program
 
 If `notify-send` doesn't work in your environment, this example doesn't work.
@@ -35,22 +55,3 @@ bind-key w run-shell -b 'PATH/TO/REPO/tmux-watch #{pane_id} PATH/TO/REPO/example
 unbind-key W
 bind-key W run-shell 'PATH/TO/REPO/tmux-watch-unwatch #{pane_id}' \; display-message 'Unwatched this pane'
 ```
-
-## Customizing
-
-`tmux-watch` script doesn't do much. It's up to you what you do with it.
-
-You provide program you want to run with `tmux-watch` (just like you do with `watch`). The program passed to `tmux-watch` will receieve tmux pane ID it is watching as `-p PANE_ID`.
-For example, when you invoke `tmux-watch` as:
-
-```
-tmux-watch %1 prog --your-option value
-```
-(`%1` is tmux pane ID)
-
-Your program will be run once in 5 seconds like:
-```
-prog -p %1 --your-option value
-```
-
-Do whatever you like within your program using the tmux pane ID passed. See scripts in the examples directory for examples.
