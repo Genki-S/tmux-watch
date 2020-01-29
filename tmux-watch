@@ -21,6 +21,19 @@ if ! [[ $pane_id =~ %[0-9]+ ]]; then
   print_usage_and_exit
 fi
 
+# check if this pane is watched already
+watch_pid=$(tmux show-options -g -v -q @watch-pid-${pane_id})
+if [[ -n "$watch_pid" ]]; then
+  echo "tmux-watch is already watching this pane"
+  exit 1
+fi
+# record the watch PID, register cleanup trap
+tmux set-option -g @watch-pid-${pane_id} "$$"
+function cleanup {
+  tmux set-option -g -u @watch-pid-${pane_id}
+}
+trap cleanup EXIT
+
 set +e
 
 while true
