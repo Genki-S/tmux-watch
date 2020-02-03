@@ -31,6 +31,16 @@ prog -p %1 --your-option value
 
 Do whatever you like within your program using the tmux pane ID passed. See scripts in the examples directory for examples.
 
+## Difference with `watch`
+
+tmux-watch provides following features, which cannot be achieved with pure `watch`:
+
+- Ensures there's at most 1 tmux-watch process per tmux pane
+- Allows the passed program to stop tmux-watch process gracefully
+  - when program exit with non-zero status, tmux-watch process will terminate with exit code 0
+  - this is useful to, for example, prevent notifications from firing multiple times
+- Allows un-watching the already watched pane
+
 ## Quick start with example program
 
 If `notify-send` doesn't work in your environment, this example doesn't work.
