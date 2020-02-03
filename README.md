@@ -36,6 +36,9 @@ Your program can communicate to `tmux-watch` (the parent process) using exit sta
 - exit with 42 ("stop watching"): `tmux-watch` will exit with status 0
 - exit with other status ("something went wrong"): `tmux-watch` will exit with status returned from your program
 
+The scripts in this repository are fairly small. Please read the scripts to learn the exact behavior.
+`man tmux` is also your friend.
+
 ## Difference with `watch`
 
 tmux-watch provides following features, which cannot be achieved with pure `watch`:
