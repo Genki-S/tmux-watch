@@ -48,8 +48,12 @@ do
   fi
 
   $user_command -p $pane_id "$@"
-  if [[ $? -ne 0 ]]; then
+  user_command_exit=$?
+  if [[ $user_command_exit -eq 42 ]]; then
     break
+  fi
+  if [[ $user_command_exit -ne 0 ]]; then
+    exit $user_command_exit
   fi
 
   # TODO: make sleep length configurable as `watch` does

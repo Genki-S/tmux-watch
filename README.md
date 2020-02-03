@@ -31,13 +31,18 @@ prog -p %1 --your-option value
 
 Do whatever you like within your program using the tmux pane ID passed. See scripts in the examples directory for examples.
 
+Your program can communicate to `tmux-watch` (the parent process) using exit status as follows:
+- exit with 0 ("continue watching"): `tmux-watch` continues to run your program periodically
+- exit with 42 ("stop watching"): `tmux-watch` will exit with status 0
+- exit with other status ("something went wrong"): `tmux-watch` will exit with status returned from your program
+
 ## Difference with `watch`
 
 tmux-watch provides following features, which cannot be achieved with pure `watch`:
 
 - Ensures there's at most 1 tmux-watch process per tmux pane
 - Allows the passed program to stop tmux-watch process gracefully
-  - when program exit with non-zero status, tmux-watch process will terminate with exit code 0
+  - when program exit with status 42, tmux-watch process will terminate with exit code 0
   - this is useful to, for example, prevent notifications from firing multiple times
 - Allows un-watching the already watched pane
 
